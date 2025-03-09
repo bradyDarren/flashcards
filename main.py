@@ -15,12 +15,12 @@ canvas.create_text(400, 263, text='word', font=('Ariel', 60,'bold'), fill='black
 canvas.grid(column=0, row=0, columnspan=2)
 
 # Buttons
-wrong_image = PhotoImage(file="images/wrong.png")
-wrong_button = Button(image=wrong_image, borderwidth=0, relief='flat', highlightthickness=0)
-wrong_button.grid(column=0, row=1)
-right_image = PhotoImage(file="images/right.png")
-right_button = Button(image=right_image, borderwidth=0, relief='flat', highlightthickness=0)
-right_button.grid(column=1, row=1)
+unkown_image = PhotoImage(file="images/wrong.png")
+unkown_button = Button(image=unkown_image, borderwidth=0, relief='flat', highlightthickness=0)
+unkown_button.grid(column=0, row=1)
+known_image = PhotoImage(file="images/right.png")
+known_button = Button(image=known_image, borderwidth=0, relief='flat', highlightthickness=0)
+known_button.grid(column=1, row=1)
 
 
 
