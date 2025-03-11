@@ -28,6 +28,7 @@ def words_to_study():
     to_learn.remove(current_card)
     df = pd.DataFrame(to_learn)
     df.to_csv("data/words_to_learn", index=False)
+    print(len(to_learn))
     # below is what was used when we created the file based on what we didnt know
     # unkown_words.append(current_card)
     # df = pd.DataFrame(unkown_words) 
