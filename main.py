@@ -4,9 +4,13 @@ import pandas as pd
 
 BACKGROUND_COLOR = "#B1DDC6"
 # ------------------ Random Word Generation ---------------------------------
-spanish = pd.read_csv(filepath_or_buffer='data/spanish.csv')
-to_learn = spanish.to_dict(orient='records')
-current_card = {}
+try:
+    spanish = pd.read_csv(filepath_or_buffer="words_to_learn.csv")
+except FileNotFoundError:         
+    spanish = pd.read_csv(filepath_or_buffer='data/spanish.csv')
+finally:
+    to_learn = spanish.to_dict(orient='records')
+    current_card = {}
 
 
 def new_word():
@@ -23,9 +27,7 @@ unkown_words = []
 def words_to_study():
     unkown_words.append(current_card)
     df = pd.DataFrame(unkown_words) 
-
-    with open(file="words_to_learn.csv", mode="a") as file:
-        df.to_csv(index=False)
+    df.to_csv("words_to_learn.csv",index=False )
     new_word()
 
 # ---------------------------- Card Flip -------------------------------------------
