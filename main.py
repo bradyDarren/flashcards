@@ -5,7 +5,7 @@ import pandas as pd
 BACKGROUND_COLOR = "#B1DDC6"
 # ------------------ Random Word Generation ---------------------------------
 try:
-    spanish = pd.read_csv(filepath_or_buffer="words_to_learn.csv")
+    spanish = pd.read_csv(filepath_or_buffer="data/words_to_learn.csv")
 except FileNotFoundError:         
     spanish = pd.read_csv(filepath_or_buffer='data/spanish.csv')
 finally:
@@ -25,9 +25,13 @@ def new_word():
 unkown_words = []
 
 def words_to_study():
-    unkown_words.append(current_card)
-    df = pd.DataFrame(unkown_words) 
-    df.to_csv("words_to_learn.csv",index=False )
+    to_learn.remove(current_card)
+    df = pd.DataFrame(to_learn)
+    df.to_csv("data/words_to_learn", index=False)
+    # below is what was used when we created the file based on what we didnt know
+    # unkown_words.append(current_card)
+    # df = pd.DataFrame(unkown_words) 
+    # df.to_csv("words_to_learn.csv",index=False )
     new_word()
 
 # ---------------------------- Card Flip -------------------------------------------
@@ -56,11 +60,11 @@ canvas.grid(column=0, row=0, columnspan=2)
 
 # -------------------------- Buttons ------------------------------------------
 unkown_image = PhotoImage(file="images/wrong.png")
-unkown_button = Button(image=unkown_image, borderwidth=0, relief='flat', highlightthickness=0, command=words_to_study)
+unkown_button = Button(image=unkown_image, borderwidth=0, relief='flat', highlightthickness=0, command=new_word)
 unkown_button.grid(column=0, row=1)
 
 known_image = PhotoImage(file="images/right.png")
-known_button = Button(image=known_image, borderwidth=0, relief='flat', highlightthickness=0, command=new_word)
+known_button = Button(image=known_image, borderwidth=0, relief='flat', highlightthickness=0, command=words_to_study)
 known_button.grid(column=1, row=1)
 
 new_word()
