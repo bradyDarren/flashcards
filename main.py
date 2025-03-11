@@ -1,7 +1,6 @@
 from tkinter import *
 import random as r 
 import pandas as pd
-import time
 
 BACKGROUND_COLOR = "#B1DDC6"
 # ------------------ Random Word Generation ---------------------------------
@@ -9,16 +8,27 @@ spanish = pd.read_csv(filepath_or_buffer='data/spanish.csv')
 to_learn = spanish.to_dict(orient='records')
 current_card = {}
 
+
 def new_word():
-    global current_card
+    global current_card, flip_timer
+    window.after_cancel(flip_timer)
     current_card = r.choice(to_learn)
     canvas.itemconfig(card_word, text=current_card['Spanish Word'], fill = 'black')
     canvas.itemconfig(card_title, text= "Spanish", fill='black')
     canvas.itemconfig(background, image = card_front)
     window.after(3000, func=flip_card)
 
+unkown_words = []
 
-# ---------------------------- UI -------------------------------------------
+def words_to_study():
+    unkown_words.append(current_card)
+    df = pd.DataFrame(unkown_words) 
+
+    with open(file="words_to_learn.csv", mode="a") as file:
+        df.to_csv(index=False)
+    new_word()
+
+# ---------------------------- Card Flip -------------------------------------------
 
 def flip_card():
     canvas.itemconfig(background, image = card_back)
@@ -44,7 +54,7 @@ canvas.grid(column=0, row=0, columnspan=2)
 
 # -------------------------- Buttons ------------------------------------------
 unkown_image = PhotoImage(file="images/wrong.png")
-unkown_button = Button(image=unkown_image, borderwidth=0, relief='flat', highlightthickness=0, command=new_word)
+unkown_button = Button(image=unkown_image, borderwidth=0, relief='flat', highlightthickness=0, command=words_to_study)
 unkown_button.grid(column=0, row=1)
 
 known_image = PhotoImage(file="images/right.png")
